@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import logo from './logo.svg';
 import './App.css';
-// import ProductDetails from './ProductDetails';
+import ProductDetails from './ProductDetails';
 
 class Product extends Component {
 	// state = {
@@ -22,8 +22,8 @@ class Product extends Component {
 		return <div>
 			<div className=''>
 				<div>
-					<h3>product name: {this.props.name}</h3>
-					<p>product price: {this.props.price}</p>
+					<h3>product name: {this.props.product.name}</h3>
+					<p>product price: {this.props.product.price}</p>
 					{/* <button onClick={this.viewclicker}>view </button> */}
 				</div>
 			</div>
