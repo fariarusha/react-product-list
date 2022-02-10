@@ -1,89 +1,79 @@
-import React , {Component} from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import logo from './logo.svg';
 import './App.css';
+// import ProductDetails from './ProductDetails';
+import CustomLoader from './CustomLoader';
 import Product from './Product';
 import ProductDetails from './ProductDetails';
 
-class App extends Component{
+class App extends Component {
+ 
+ 
   state = {
-		// name: 'product',
-		// price: '$45',
-		// description: '',
-		// category: '',
-    // page: 'product',
+    showElement : 'false',
+    loading: 'false',
+    timer: 0,
     products: [
-			{
-				name: 'First Product',
-				description: '',
-				price: '$45',
-				category: '',
-			},
-			{
-				name: 'second product',
-				description: '',
-				price: 'price',
-				category: '',
-			},
-			{
-				name: 'third product',
-				description: '',
-				price: 'price',
-				category: '',
-			},
-		]
-	}
-
-	viewclicker = (pageName) => {
-    this.setState({
-    page: pageName,
-    products: [
-			{
+      {
         name: 'First Product',
+        description: '',
         price: '$45',
-				description: 'lorem ipsum doler 1',
-				category: 'category 1',
-			},
-			{
-        name: 'second Product',
-        price: '$35',
-				description: 'lorem ipsum doler 2',
-				category: 'category 2',
-			},
-			{
-        name: 'third Product',
-        price: '$25',
-        description: 'lorem ipsum doler 3',
-				category: 'category 3',
-			},
-		] })
-	}
-    render (){
-        return <div>
-          <div className='Product-wrapper'>
-            <div className="product-initial">
-              <Product name={this.state.products[0].name} price={this.state.products[0].price}/>
-              <button onClick={this.viewclicker}>view </button>
-            </div>
-            {this.state.page === 'product' ? "" : <ProductDetails description ={this.state.products[0].description} category={this.state.products[0].category}/>}
-            
-          </div>
-          <div className='Product-wrapper'>
-            <div className="product-initial">
-              <Product name={this.state.products[1].name} price={this.state.products[1].price}/>
-              <button onClick={this.viewclicker}>view </button>
-            </div>
-            {this.state.page === 'product' ? "" : <ProductDetails description ={this.state.products[1].description} category={this.state.products[1].category}/>}
-            
-          </div>
-          <div className='Product-wrapper'>
-            <div className="product-initial">
-              <Product name={this.state.products[2].name} price={this.state.products[2].price}/>
-              <button onClick={this.viewclicker}>view </button>
-            </div>
-            {this.state.page === 'product' ? <ProductDetails name ={this.state.products[2].name} category={this.state.products[2].price}/> : <ProductDetails description ={this.state.products[2].description} category={this.state.products[2].category}/>}
+        category: '',
+      },
+      {
+        name: 'second product',
+        description: 'dfgdgf',
+        price: 'price',
+        category: '',
+      },
+      {
+        name: 'third product',
+        description: '',
+        price: 'price',
+        category: '',
+      },
+    ],
+    productDetails:{
+      name: 'third product',
+      description: 'lorem sim',
+      price: 'price',
+      category: '1',
+    }
+  }
+
+
+
+viewclicker=(event)=>{
+  // console.log("This is index"+event.target.value);
+  const index = event.target.value;
+  // console.log(index);
+  const detailsProduct = this.state.products[index];
+  this.setState({
+    showElement : 'true',
+    loading: 'true',
+    productDetails:detailsProduct
+  })
+}
+componentDidUpdate() {
+  // let loading = 0;
+  this.state.loading = setTimeout(() => console.log('Hello, World!'), 3000)
+}
+
+  render() {
+    return <div>
+      {this.state.products.map((product, index) =>
+        <div className='Product-wrapper'>
+          <div className="product-initial">
+         
+            <Product product={product} />
+            <button value={index} onClick={this.viewclicker}>view </button>
           </div>
         </div>
-    }
+      )}
+      {this.state.loading?<CustomLoader loading={this.state.loading}/>:''}
+     {this.state.showElement ? <ProductDetails product={this.state.productDetails} /> : '<p>No details found </p>'}
+    </div>
+  }
 }
 
 export default App;
