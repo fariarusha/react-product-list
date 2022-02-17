@@ -7,6 +7,7 @@ class ProductDetails extends Component{
     
     render (){
         return <div>
+            
             <h3 className='hide-element'>product details here </h3>
             <p>{this.props.product.name}</p>
             <p>{this.props.product.price}</p>

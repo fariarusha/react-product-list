@@ -1,79 +1,65 @@
-import React, { Component, useEffect, useState } from 'react'
-import logo from './logo.svg';
-import './App.css';
-// import ProductDetails from './ProductDetails';
-import CustomLoader from './CustomLoader';
-import Product from './Product';
-import ProductDetails from './ProductDetails';
+import logo from "./logo.svg";
+import "./App.css";
+import { useEffect, useState } from "react";
+import React from "react";
+import CustomLoader from "./CustomLoader";
+import ProductListComp from "./productListComp";
+import ProductDetailsPage from "./productDetailsComp";
 
-class App extends Component {
- 
- 
-  state = {
-    showElement : 'false',
-    loading: 'false',
-    timer: 0,
-    products: [
-      {
-        name: 'First Product',
-        description: '',
-        price: '$45',
-        category: '',
-      },
-      {
-        name: 'second product',
-        description: 'dfgdgf',
-        price: 'price',
-        category: '',
-      },
-      {
-        name: 'third product',
-        description: '',
-        price: 'price',
-        category: '',
-      },
-    ],
-    productDetails:{
-      name: 'third product',
-      description: 'lorem sim',
-      price: 'price',
-      category: '1',
-    }
-  }
+function App() {
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showLoader, setShowLoader] = useState(false);
+  // const [showElements, setShowElements] = useState(true);
+  const [showProducts, setShowProducts] = useState([
+    {
+      name: "Wiper",
+      description: "lorem ipsum doler wiper",
+      price: "12",
+      category: "Product Category wiper",
+    },
+    {
+      name: "Tissue",
+      description: "lorem ipsum doler tissue",
+      price: "23",
+      category: "Product Category tissue",
+    },
+    {
+      name: "bucket",
+      description: "lorem ipsum doler bucket",
+      price: "33",
+      category: "Product Category bucket",
+    },
+  ]);
 
+  // const name="testing";
+  const viewElement = (showProduct) => {
+    // console.log(showProduct);
+    // console.log(selectedProduct);
+    // setShowElements(false);
+    // alert("working");
+    setShowLoader(true);
+    setTimeout(() => {
+      setSelectedProduct(showProduct);
+      setShowLoader(false);
+    }, 500);
+  };
 
-
-viewclicker=(event)=>{
-  // console.log("This is index"+event.target.value);
-  const index = event.target.value;
-  // console.log(index);
-  const detailsProduct = this.state.products[index];
-  this.setState({
-    showElement : 'true',
-    loading: 'true',
-    productDetails:detailsProduct
-  })
-}
-componentDidUpdate() {
-  // let loading = 0;
-  this.state.loading = setTimeout(() => console.log('Hello, World!'), 3000)
-}
-
-  render() {
-    return <div>
-      {this.state.products.map((product, index) =>
-        <div className='Product-wrapper'>
-          <div className="product-initial">
-         
-            <Product product={product} />
-            <button value={index} onClick={this.viewclicker}>view </button>
-          </div>
-        </div>
+  return (
+    <>
+      {showLoader && <CustomLoader />}
+      {selectedProduct === null ? (
+        <ProductListComp
+          showProducts={showProducts}
+          showProductList={viewElement}
+        />
+      ) : (
+        <ProductDetailsPage
+          selectedProduct={selectedProduct}
+          showProductDetails={viewElement}
+        />
       )}
-      {this.state.loading?<CustomLoader loading={this.state.loading}/>:''}
-     {this.state.showElement ? <ProductDetails product={this.state.productDetails} /> : '<p>No details found </p>'}
-    </div>
-  }
+    </>
+  );
 }
 
 export default App;
